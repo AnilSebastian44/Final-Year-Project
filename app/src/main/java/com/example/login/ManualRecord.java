@@ -16,6 +16,14 @@ public class ManualRecord extends AppCompatActivity {
     Button record_btn, view_btn;
     DbHelper db;
 
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ScanActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

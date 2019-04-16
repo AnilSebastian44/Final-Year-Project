@@ -1,5 +1,6 @@
 package com.example.login;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,15 @@ import java.util.ArrayList;
 public class ViewAttendance extends AppCompatActivity {
 
     DbHelper db;
+    ListView listView;
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ScanActivity.class);
+        this.recreate();
+        startActivity(intent);
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +30,7 @@ public class ViewAttendance extends AppCompatActivity {
         setContentView(R.layout.view_attendance);
 
 
-        ListView listView = (ListView) findViewById(R.id.listView);
+        listView =  findViewById(R.id.listView);
         db = new DbHelper(this);
 
         ArrayList<String> list = new ArrayList<>();

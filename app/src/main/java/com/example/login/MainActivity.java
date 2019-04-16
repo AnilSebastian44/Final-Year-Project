@@ -1,8 +1,6 @@
 package com.example.login;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -25,6 +23,12 @@ public class MainActivity extends AppCompatActivity {
     ViewGroup progressView;
     protected boolean isProgressShowing = false;
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, Home_Activity.class);
+        startActivity(intent);
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         db = new DbHelper(this);
-        mTextUsername = (EditText) findViewById(R.id.edittext_username);
-        mTextPassword = (EditText) findViewById(R.id.edittext_password);
-        mButtonLogin = (Button) findViewById(R.id.button_login);
-        mTextViewRegister = (TextView) findViewById(R.id.textview_register);
+        mTextUsername = findViewById(R.id.edittext_username);
+        mTextPassword = findViewById(R.id.edittext_password);
+        mButtonLogin = findViewById(R.id.button_login);
+        mTextViewRegister = findViewById(R.id.textview_register);
 
         mTextViewRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 boolean res = db.checkUser(userName, pass);
-                if (res == true && userName!=null&& pass != null) {
+                if (res == true && userName != null && pass != null) {
 
                     /*//if user name exists
                     if(db.rowIdExists(user)){
@@ -76,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     }*/
 
                     Intent HomePage = new Intent(MainActivity.this, ScanActivity.class);
-                    HomePage.putExtra("User",userName);
+                    HomePage.putExtra("User", userName);
                     startActivity(HomePage);
                 } else {
                     Toast.makeText(MainActivity.this, "Invalid Password", Toast.LENGTH_SHORT).show();
@@ -85,8 +89,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
 
     public void showProgressingView() {

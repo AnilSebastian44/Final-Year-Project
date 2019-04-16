@@ -17,4 +17,7 @@
     <string name="Time">Time</string>
     <string name="Date">Date</string>
     <string name="record_attendance">Record Attendance</string>
+    <string name="Student">student</string>
+    <string name="Lecturer">lecturer</string>
+    <string name="Admin">admin</string>
 </resources>

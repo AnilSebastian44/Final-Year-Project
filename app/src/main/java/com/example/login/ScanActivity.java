@@ -27,6 +27,13 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
     String uuid_match = "b9407f30-f5f8-466e-aff9-25556b57fe6d";
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beacon_scan);
