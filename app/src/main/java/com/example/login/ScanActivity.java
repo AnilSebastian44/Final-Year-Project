@@ -26,12 +26,12 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
     DbHelper db;
     String uuid_match = "b9407f30-f5f8-466e-aff9-25556b57fe6d";
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
 
     @Override
     protected void onResume() {
-        super.onResume();
+
 
         if (!SystemRequirementsChecker.checkWithDefaultDialogs(this)) {
             Log.e(TAG, "Can't scan for beacons, some pre-conditions were not met");
@@ -93,7 +93,17 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
                     .build();
             IBeaconScanner.getInstance().startMonitoring(beacon1);
         }
+        super.onResume();
     }
+
+    @Override
+    public void onStop() {
+
+
+        super.onStop();
+    }
+
+
 
     @Override
     public void didEnterBeacon(Beacon beacon) {

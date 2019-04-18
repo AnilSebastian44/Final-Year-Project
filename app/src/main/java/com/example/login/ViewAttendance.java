@@ -16,13 +16,13 @@ public class ViewAttendance extends AppCompatActivity {
     DbHelper db;
     ListView listView;
 
-    @Override
+   /* @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, ScanActivity.class);
         this.recreate();
         startActivity(intent);
         finish();
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,19 +30,23 @@ public class ViewAttendance extends AppCompatActivity {
         setContentView(R.layout.view_attendance);
 
 
-        listView =  findViewById(R.id.listView);
+        listView = findViewById(R.id.listView);
         db = new DbHelper(this);
 
         ArrayList<String> list = new ArrayList<>();
 
-        /*     //getting value of user login from MainActivity
+        //getting value of user login from MainActivity
         Bundle extras = getIntent().getExtras();
-        //final String value = (String) extras.get("User");
+        final String value = (String) extras.get("User");
 
         //Cursor data = db.getRecordData(value);*/
 
 
         Cursor data = db.getRecordData();
+
+        //Cursor data = db.getSpecificData(value);
+
+
 
         if (data.getCount() == 0) {
             Toast.makeText(ViewAttendance.this, "No record in the database", Toast.LENGTH_SHORT).show();

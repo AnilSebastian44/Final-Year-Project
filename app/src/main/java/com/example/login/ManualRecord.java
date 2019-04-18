@@ -17,12 +17,12 @@ public class ManualRecord extends AppCompatActivity {
     DbHelper db;
 
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         Intent intent = new Intent(this, ScanActivity.class);
         startActivity(intent);
         finish();
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

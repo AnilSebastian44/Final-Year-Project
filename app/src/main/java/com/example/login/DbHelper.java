@@ -10,11 +10,11 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "UsersLoginRegister.db";
     private static final int DB_VERSION = 1;
-    public static final String COL_1 = "ID";
-    public static final String COL_2 = "username";
-    public static final String COL_3 = "password";
-    public static final String USER_TABLE_NAME = "users";
-    public static final String RECORD_TABLE_NAME = "RecordUsers";
+    private static final String COL_1 = "ID";
+    private static final String COL_2 = "username";
+    private static final String COL_3 = "password";
+    private static final String USER_TABLE_NAME = "users";
+    private static final String RECORD_TABLE_NAME = "RecordUsers";
 
     public DbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -53,7 +53,7 @@ public class DbHelper extends SQLiteOpenHelper {
         //user table
         String sqlUsers = "CREATE TABLE users(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT);";
 
-        //user attandance record table
+        //user attendance record table
         String sqlRecordUsers = "CREATE TABLE RecordUsers(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, date TEXT, time TEXT, user_id INTEGER, FOREIGN KEY(user_id) REFERENCES users(id));";
 
         db.execSQL(sqlUsers);
@@ -109,20 +109,35 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //getting user info from database into a list
 
+
     //public Cursor getRecordData(String s){
     public Cursor getRecordData() {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + RECORD_TABLE_NAME, null);
+        //Cursor cursor = db.rawQuery("SELECT * FROM " + RECORD_TABLE_NAME, null);
 
-        /*
-         To get details of specific users
-         */
-        //Cursor cursor = db.rawQuery("SELECT * FROM "+ RECORD_TABLE_NAME + " WHERE " + COL_2 + "=" + s , null);
-
-        return cursor;
+        return db.rawQuery("SELECT * FROM " + RECORD_TABLE_NAME, null);
 
     }
 
+   /*
+   //getting specific user info
+   public Cursor getSpecificData(String s) {
+        SQLiteDatabase db = getReadableDatabase();
+        String[] params = new String[]{ s };
+
+      //  Cursor cursor = db.rawQuery("SELECT * FROM " + RECORD_TABLE_NAME, null);
+
+        *//*
+         To get details of specific users
+         *//*
+       //Cursor cursor = db.rawQuery("SELECT * FROM " + RECORD_TABLE_NAME + " WHERE COL_2 == ?", new String[]{s + " "});
+
+
+        return db.rawQuery("SELECT * FROM " + RECORD_TABLE_NAME + " WHERE COL_2 = ?", params);
+
+        //retutn db.rawQuery("SELECT * FROM RECORD_TABLE_NAME WHERE COL_2 = ?", params);
+
+    }*/
 
 
  /*   public boolean rowIdExists(String StrId) {

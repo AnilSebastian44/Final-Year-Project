@@ -23,12 +23,12 @@ public class MainActivity extends AppCompatActivity {
     ViewGroup progressView;
     protected boolean isProgressShowing = false;
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         Intent intent = new Intent(this, Home_Activity.class);
         startActivity(intent);
         finish();
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
