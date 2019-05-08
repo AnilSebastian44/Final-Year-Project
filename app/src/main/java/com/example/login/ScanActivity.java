@@ -51,7 +51,7 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
         time = findViewById(R.id.tv_time);
 
 
-        //attancancd view button
+        //attendance view button
         view_btn = findViewById(R.id.view_record);
         add_attendance = findViewById(R.id.btn_add);
         add_attendance.setOnClickListener(new View.OnClickListener() {

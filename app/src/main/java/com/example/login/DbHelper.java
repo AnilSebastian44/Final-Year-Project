@@ -119,7 +119,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
-   /*
+
    //getting specific user info
    public Cursor getSpecificData(String s) {
         SQLiteDatabase db = getReadableDatabase();
@@ -127,17 +127,17 @@ public class DbHelper extends SQLiteOpenHelper {
 
       //  Cursor cursor = db.rawQuery("SELECT * FROM " + RECORD_TABLE_NAME, null);
 
-        *//*
+        /*
          To get details of specific users
-         *//*
+         */
        //Cursor cursor = db.rawQuery("SELECT * FROM " + RECORD_TABLE_NAME + " WHERE COL_2 == ?", new String[]{s + " "});
 
 
-        return db.rawQuery("SELECT * FROM " + RECORD_TABLE_NAME + " WHERE COL_2 = ?", params);
+        return db.rawQuery("SELECT * FROM " + RECORD_TABLE_NAME + " WHERE COL_2 == ?", params);
 
-        //retutn db.rawQuery("SELECT * FROM RECORD_TABLE_NAME WHERE COL_2 = ?", params);
+        //return db.rawQuery("SELECT * FROM RECORD_TABLE_NAME WHERE COL_2 = ?", params);
 
-    }*/
+    }
 
 
  /*   public boolean rowIdExists(String StrId) {
