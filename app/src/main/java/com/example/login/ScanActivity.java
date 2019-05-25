@@ -9,10 +9,22 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
+
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import mobi.inthepocket.android.beacons.ibeaconscanner.Beacon;
 import mobi.inthepocket.android.beacons.ibeaconscanner.Error;
@@ -25,6 +37,10 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
     Button view_btn, add_attendance;
     DbHelper db;
     String uuid_match = "b9407f30-f5f8-466e-aff9-25556b57fe6d";
+    String currentDate;
+    String currentTime;
+    String user_value;
+    private String url = "http://192.168.0.129:3000/add_attendance";
 
     /*@Override
     public void onBackPressed() {
@@ -104,13 +120,11 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
     }
 
 
-
     @Override
     public void didEnterBeacon(Beacon beacon) {
         Log.d("app", "Entered beacon with UUID " + beacon.getUUID() + beacon.getMinor() + beacon.getMajor());
 
         Toast.makeText(ScanActivity.this, beacon.getUUID() + "Found assigned beacons UUID", Toast.LENGTH_SHORT).show();
-
 
         if (beacon.getUUID().toString() != null && beacon.getUUID().toString().equals(uuid_match)) {
 
@@ -119,34 +133,37 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
 
             matching.setText("UUID IS MATCHING");
 
-            final String value;
 
             //getting value of user login from MainActivity
             Bundle extras = getIntent().getExtras();
-            //final String value;
             if (extras != null) {
-                value = (String) extras.get("User");
-                user.setText(value);
+                user_value = (String) extras.get("User");
+                user.setText(user_value);
 
 
                 //getting the current time
                 Calendar calendar = Calendar.getInstance();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-                String currentTime = "Registered Time : " + dateFormat.format(calendar.getTime());
+                //Registered Time
+                currentTime = dateFormat.format(calendar.getTime());
                 time.setText(currentTime);
 
                 //getting the current date
                 SimpleDateFormat timeFormat = new SimpleDateFormat("dd/MM/yyy");
-                String currentDate = "Registered Date: " + timeFormat.format(calendar.getTime());
+                //Registered Date
+                currentDate = timeFormat.format(calendar.getTime());
                 date.setText(currentDate);
 
 
                 //adding username, date and time to the database table RecordUsers
 
-                if (value.length() > 0 && currentDate != null && currentTime != null) {
+                if (user_value != null && currentDate != null && currentTime != null) {
+                    //calling the add attendance function
+                    addAttendance();
 
-                    boolean res = db.addUserRecord(value, currentDate, currentTime);
-                    if (res == true) {
+
+                    boolean res = db.addUserRecord(user_value, currentDate, currentTime);
+      /*              if (res == true) {
 
                         Toast.makeText(ScanActivity.this, "SAVED TO DATABASE", Toast.LENGTH_SHORT).show();
                         view_btn.setOnClickListener(new View.OnClickListener() {
@@ -157,11 +174,13 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
                                 startActivity(View_attandance);
                             }
                         });
-                    }
+                    }// end of if
 
+    */
                 }
 
                 //record attandance
+
             } else {
                 matching.setText("UUID NOT MATCHING");
                 Toast.makeText(ScanActivity.this, "Beacon UUID not matching", Toast.LENGTH_SHORT).show();
@@ -169,6 +188,54 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
 
         }
     }
+
+    public void addAttendance(){
+
+        // API call to server to check if user exists
+
+        //queue
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        //passing info
+        HashMap<String, String> jsonParams = new HashMap<>();
+
+        jsonParams.put("username", user_value);
+        jsonParams.put("date", currentDate);
+        jsonParams.put("time", currentTime);
+
+        //POST
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url,
+                new JSONObject(jsonParams),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+
+                        Toast.makeText(ScanActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Some Error: " + error.getMessage());
+
+                Toast.makeText(ScanActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        }){
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+
+
+            }
+        };
+
+        //add the request to the queue
+        // RequestQueue mRequest = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(jsonObjectRequest);
+    }
+
 
     @Override
     public void didExitBeacon(Beacon beacon) {
