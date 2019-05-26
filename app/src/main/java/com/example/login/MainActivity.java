@@ -1,11 +1,14 @@
 package com.example.login;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,16 +20,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     DbHelper db;
     EditText mTextUsername;
@@ -36,13 +37,17 @@ public class MainActivity extends AppCompatActivity {
     Button mButtonLogin;
     TextView mTextViewLogin;
     TextView mTextViewRegister;
-    ViewGroup progressView;
-    protected boolean isProgressShowing = false;
-    //private String url = "http://192.168.0.129:3000/course";
+
     private String url = "http://192.168.0.129:3000/login_auth";
     String userName;
     String passw;
     private String TAG = MainActivity.class.getName();
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    Boolean saveLogin;
+    CheckBox cb_save;
+
 
 
     /*@Override
@@ -56,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         //showProgressingView();
         //hideProgressingView();
 
@@ -65,6 +71,11 @@ public class MainActivity extends AppCompatActivity {
         mTextPassword = findViewById(R.id.edittext_password);
         mButtonLogin = findViewById(R.id.button_login);
         mTextViewRegister = findViewById(R.id.textview_register);
+
+
+        sharedPreferences= getSharedPreferences("login",MODE_PRIVATE);
+        cb_save=findViewById(R.id.checkBox);
+        editor =sharedPreferences.edit();
 
 
         mTextViewRegister.setOnClickListener(new View.OnClickListener() {
@@ -77,12 +88,12 @@ public class MainActivity extends AppCompatActivity {
 
         mButtonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
 
-
-
-                /*final String userName = mTextUsername.getText().toString().trim();
-                final String passw = mTextPassword.getText().toString().trim();*/
+                /**
+                 * Shared preferece login
+                 * */
+                login();
 
                 userName = mTextUsername.getText().toString();
                 passw = mTextPassword.getText().toString();
@@ -114,13 +125,10 @@ public class MainActivity extends AppCompatActivity {
 //                }
 
 
-                /*
+                /**
                 API call to server to check if user exists
                  */
                 validateUser();
-
-
-
 
 //                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 //
@@ -152,17 +160,23 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        saveLogin=sharedPreferences.getBoolean("saveLogin",true);
+        if(saveLogin == true){
+            mTextUsername.setText(sharedPreferences.getString("username", null));
+            mTextPassword.setText(sharedPreferences.getString("password",null));
+        }
     }
 
 
-    public void validateUser(){
+    //validating the user login using API POST
+    public void validateUser() {
         RequestQueue mRequest = Volley.newRequestQueue(getApplicationContext());
 
         Map<String, String> jsonParams = new HashMap<String, String>();
 
         jsonParams.put("userName", userName);
         jsonParams.put("passw", passw);
-
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url,
                 new JSONObject(jsonParams),
@@ -172,10 +186,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent HomePage = new Intent(MainActivity.this, ScanActivity.class);
                         HomePage.putExtra("User", userName);
                         startActivity(HomePage);
-
-
                         Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -183,38 +194,36 @@ public class MainActivity extends AppCompatActivity {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
 
                 Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-
             }
 
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers  = new HashMap<String, String>();
+                HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json; charset=utf-8");
                 headers.put("User-agent", "My user agent");
                 return headers;
             }
         };
-
-        //add the request tot he que
-        // RequestQueue mRequest = Volley.newRequestQueue(getApplicationContext());
-
+        //add the request to the queue
         mRequest.add(jsonObjectRequest);
-
     }
 
-    public void showProgressingView() {
+    public void login(){
+        String username = mTextUsername.getText().toString();
+        String password = mTextPassword.getText().toString();
 
-        if (!isProgressShowing) {
-            View view = findViewById(R.id.progressBar1);
-            view.bringToFront();
+        if(username.equals(userName)&& password.equals(passw)){
+            Toast.makeText(MainActivity.this, "Valid user", Toast.LENGTH_SHORT).show();
+
+            if(cb_save.isChecked()){
+                editor.putBoolean("saveLogin",true);
+                editor.putString("username",username);
+                editor.putString("password",password);
+                editor.apply();
+            }
+        }else {
+            Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public void hideProgressingView() {
-        View v = this.findViewById(android.R.id.content).getRootView();
-        ViewGroup viewGroup = (ViewGroup) v;
-        viewGroup.removeView(progressView);
-        isProgressShowing = false;
     }
 }

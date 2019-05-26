@@ -1,6 +1,7 @@
 package com.example.login;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -34,13 +35,15 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
 
     private static final String TAG = "ScanActivity";
     TextView uuid, matching, user, date, time;
-    Button view_btn, add_attendance;
+    Button view_btn, add_attendance, logout;
     DbHelper db;
     String uuid_match = "b9407f30-f5f8-466e-aff9-25556b57fe6d";
     String currentDate;
     String currentTime;
     String user_value;
     private String url = "http://192.168.0.129:3000/add_attendance";
+
+    SharedPreferences sharedPreferences;
 
     /*@Override
     public void onBackPressed() {
@@ -75,6 +78,22 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
             public void onClick(View v) {
                 Intent add_attendance = new Intent(ScanActivity.this, ManualRecord.class);
                 startActivity(add_attendance);
+
+            }
+        });
+
+        //sharedPreferences= getSharedPreferences("loginPref",MODE_PRIVATE);
+        logout =findViewById(R.id.btn_logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               /*SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove("username");
+                editor.remove("password");
+                editor.apply();*/
+
+                Intent Homepage = new Intent(ScanActivity.this, MainActivity.class);
+                startActivity(Homepage);
 
             }
         });

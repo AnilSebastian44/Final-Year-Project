@@ -20,4 +20,7 @@
     <string name="Student">student</string>
     <string name="Lecturer">lecturer</string>
     <string name="Admin">admin</string>
+    <string name="logout">Logout</string>
+    <string name="view_attendance">View Attendance</string>
+    <string name="add_attendance">Add Attendance</string>
 </resources>
