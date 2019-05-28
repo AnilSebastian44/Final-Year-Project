@@ -79,7 +79,7 @@ public class ManualRecord extends AppCompatActivity {
 
                 if (userName !=null && currentDate != null && currentTime != null) {
 
-                        addAttendance();
+                      //  addAttendance();
 
                         //boolean res = db.addUserRecord(userName, currentDate, currentTime);
                         if (true) {
@@ -121,11 +121,10 @@ public class ManualRecord extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                       /* Intent HomePage = new Intent(MainActivity.this, ScanActivity.class);
-                        HomePage.putExtra("User", userName);
-                        startActivity(HomePage);*/
+                        //if it is valid user  call the add attendance function
+                        addAttendance();
 
-                        Toast.makeText(ManualRecord.this, "Valid Email", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ManualRecord.this, "Attendance Recorded", Toast.LENGTH_SHORT).show();
 
 
                         Toast.makeText(ManualRecord.this, response.toString(), Toast.LENGTH_SHORT).show();
@@ -137,7 +136,7 @@ public class ManualRecord extends AppCompatActivity {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 Toast.makeText(ManualRecord.this, "Invalid Email", Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(ManualRecord.this, error.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ManualRecord.this, error.toString(), Toast.LENGTH_SHORT).show();
 
             }
 
@@ -179,16 +178,16 @@ public class ManualRecord extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(ManualRecord.this, "SAVED TO DATABASE", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ManualRecord.this, "SAVED TO DATABASE", Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(ManualRecord.this, response.toString(), Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(ManualRecord.this, response.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Some Error: " + error.getMessage());
 
-                Toast.makeText(ManualRecord.this, error.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ManualRecord.this, error.toString(), Toast.LENGTH_SHORT).show();
 
             }
         }){

@@ -179,7 +179,15 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
                 if (user_value != null && currentDate != null && currentTime != null) {
                     //calling the add attendance function
                     addAttendance();
+                    view_btn.setOnClickListener(new View.OnClickListener() {
 
+                        @Override
+                        public void onClick(View v) {
+                            Intent View_attandance = new Intent(ScanActivity.this, ViewAttendance.class);
+                            View_attandance.putExtra("User", user_value);
+                            startActivity(View_attandance);
+                        }
+                    });
 
                     boolean res = db.addUserRecord(user_value, currentDate, currentTime);
       /*              if (res == true) {
