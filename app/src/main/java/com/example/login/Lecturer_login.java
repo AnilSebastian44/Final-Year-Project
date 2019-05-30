@@ -26,13 +26,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class Lecturer_login extends AppCompatActivity {
 
     EditText mTextUsername;
     //EditText mTextPassword;
     TextInputEditText mTextPassword;
-    EditText mTextCnfPassword;
-    Button mButtonRegister;
     Button mButtonLogin;
     TextView mTextViewLogin;
     TextView mTextViewRegister;
@@ -40,11 +38,11 @@ public class MainActivity extends AppCompatActivity {
     /**
      * For Home network
      */
-    private String url = "http://192.168.0.10:3000/login_auth";
+    private String url = "http://192.168.0.10:3000/lect_login_auth";
     /**
      * For College Guest Wifi network
      */
-    //private String url = "http://172.19.1.233:3000/login_auth";
+    //private String url = "http://172.19.1.233:3000/lect_login_auth";
 
     String userName;
     String passw;
@@ -67,17 +65,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_lect_login);
 
+        //showProgressingView();
+        //hideProgressingView();
 
         mTextUsername = findViewById(R.id.edittext_username);
-        mTextPassword = findViewById(R.id.edittext_password);
-        mTextPassword= findViewById(R.id.edittext_password);
+       // mTextPassword = findViewById(R.id.edittext_password);
+        mTextPassword=findViewById(R.id.edittext_password);
         mButtonLogin = findViewById(R.id.button_login);
-        mTextViewRegister = findViewById(R.id.textview_register);
+        // mTextViewRegister = findViewById(R.id.textview_register);
 
 
-        sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("LoginLect", MODE_PRIVATE);
         cb_save = findViewById(R.id.checkBox);
         editor = sharedPreferences.edit();
         editor.apply();
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
        /* mTextViewRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent registerIntent = new Intent(MainActivity.this, RegisterActivity.class);
+                Intent registerIntent = new Intent(Lecturer_login.this, RegisterActivity.class);
                 startActivity(registerIntent);
             }
         });*/
@@ -101,55 +101,28 @@ public class MainActivity extends AppCompatActivity {
                 String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
                 /*if (userName.matches(emailPattern)) {
-                    Toast.makeText(MainActivity.this, "Valid E-mail Address", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Lecturer_login.this, "Valid E-mail Address", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(MainActivity.this, "Invalid E-mail Address", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Lecturer_login.this, "Invalid E-mail Address", Toast.LENGTH_SHORT).show();
                 }*/
 
                 if (mTextUsername.getText().length() == 0 || mTextPassword.getText().length() == 0) {
-                    Toast.makeText(MainActivity.this, "E-mail Address or Password is Empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Lecturer_login.this, "E-mail Address or Password is Empty", Toast.LENGTH_SHORT).show();
                 }
+
 
                 /**
                  API call to server to check if user exists
                  */
                 validateUser();
 
-//                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-//
-//                if (userName.matches(emailPattern)) {
-//                    Toast.makeText(MainActivity.this, "Valid E-mail Address", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(MainActivity.this, "Invalid E-mail Address", Toast.LENGTH_SHORT).show();
-//                }
-//
-//                String pass = mTextPassword.getText().toString().trim();
-//                if (mTextUsername.getText().length() == 0 || mTextPassword.getText().length() == 0) {
-//                    Toast.makeText(MainActivity.this, "E-mail Address or Password is Empty", Toast.LENGTH_SHORT).show();
-//                }
-//
-//                boolean res = db.checkUser(userName, pass);
-//                if (res == true && userName != null && pass != null) {
-//
-//                    /*//if user name exists
-//                    if(db.rowIdExists(user)){
-//                        Toast.makeText(MainActivity.this, "Username exist", Toast.LENGTH_SHORT).show();
-//                    }*/
-//
-//                    Intent HomePage = new Intent(MainActivity.this, ScanActivity.class);
-//                    HomePage.putExtra("User", userName);
-//                    startActivity(HomePage);
-//                } else {
-//                    Toast.makeText(MainActivity.this, "Invalid Password", Toast.LENGTH_SHORT).show();
-//                }
-
             }
         });
 
         saveLogin = sharedPreferences.getBoolean("saveLogin", true);
         if (saveLogin == true) {
-            mTextUsername.setText(sharedPreferences.getString("username", null));
-            mTextPassword.setText(sharedPreferences.getString("password", null));
+            mTextUsername.setText(sharedPreferences.getString("Username", null));
+            mTextPassword.setText(sharedPreferences.getString("Password", null));
         }
     }
 
@@ -168,25 +141,22 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
                         /**
                          * Shared preferece login
                          * */
                         login();
 
-                        Intent HomePage = new Intent(MainActivity.this, ScanActivity.class);
+                        Intent HomePage = new Intent(Lecturer_login.this, ManualRecord.class);
                         HomePage.putExtra("User", userName);
                         startActivity(HomePage);
-                        Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Lecturer_login.this, response.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-
-                Toast.makeText(MainActivity.this, "In-valid Email or Password", Toast.LENGTH_LONG).show();
-
-                // Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Lecturer_login.this, "In-valid Email or Password", Toast.LENGTH_LONG).show();
+                //Toast.makeText(Lecturer_login.this, error.toString(), Toast.LENGTH_SHORT).show();
             }
 
         }) {
@@ -207,16 +177,16 @@ public class MainActivity extends AppCompatActivity {
         String password = mTextPassword.getText().toString();
 
         if (username.equals(userName) && password.equals(passw)) {
-            //Toast.makeText(MainActivity.this, "Valid user", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Lecturer_login.this, "Valid user", Toast.LENGTH_SHORT).show();
 
             if (cb_save.isChecked()) {
                 editor.putBoolean("saveLogin", true);
-                editor.putString("username", username);
-                editor.putString("password", password);
+                editor.putString("Username", username);
+                editor.putString("Password", password);
                 editor.apply();
             }
         } else {
-            Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Lecturer_login.this, "Error", Toast.LENGTH_SHORT).show();
         }
     }
 }

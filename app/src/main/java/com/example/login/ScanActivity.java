@@ -1,8 +1,10 @@
 package com.example.login;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -34,14 +36,22 @@ import mobi.inthepocket.android.beacons.ibeaconscanner.IBeaconScanner;
 public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Callback {
 
     private static final String TAG = "ScanActivity";
-    TextView uuid, matching, user, date, time;
+    TextView uuid, matching, user, date, time, notification;
     Button view_btn, add_attendance, logout;
-    DbHelper db;
     String uuid_match = "b9407f30-f5f8-466e-aff9-25556b57fe6d";
     String currentDate;
     String currentTime;
     String user_value;
-    private String url = "http://192.168.0.129:3000/add_attendance";
+
+    /**
+     * For Home network
+     */
+    private String url = "http://192.168.0.10:3000/add_attendance";
+
+    /**
+     * For College Guest Wifi network
+     */
+    //private String url = "http://172.19.1.233:3000/add_atendance";
 
     SharedPreferences sharedPreferences;
 
@@ -57,8 +67,6 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beacon_scan);
 
-        db = new DbHelper(this);
-
         // initialize
         IBeaconScanner.initialize(IBeaconScanner.newInitializer(this).build());
         IBeaconScanner.getInstance().setCallback(this);
@@ -68,10 +76,12 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
         user = findViewById(R.id.tv_user);
         date = findViewById(R.id.tv_date);
         time = findViewById(R.id.tv_time);
+        notification=findViewById(R.id.tv_notification);
 
 
         //attendance view button
         view_btn = findViewById(R.id.view_record);
+/*
         add_attendance = findViewById(R.id.btn_add);
         add_attendance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,10 +90,10 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
                 startActivity(add_attendance);
 
             }
-        });
+        });*/
 
         //sharedPreferences= getSharedPreferences("loginPref",MODE_PRIVATE);
-        logout =findViewById(R.id.btn_logout);
+        logout = findViewById(R.id.btn_logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,6 +189,20 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
                 if (user_value != null && currentDate != null && currentTime != null) {
                     //calling the add attendance function
                     addAttendance();
+
+                    Intent intent = getIntent();
+
+                    Bundle bundle = new Bundle();
+
+                    bundle.putString("Username", user_value);
+                    bundle.putString("Time", currentTime);
+                    bundle.putString("Date", currentDate);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+
+                    openDialog();
+
+
                     view_btn.setOnClickListener(new View.OnClickListener() {
 
                         @Override
@@ -189,7 +213,7 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
                         }
                     });
 
-                    boolean res = db.addUserRecord(user_value, currentDate, currentTime);
+                    // boolean res = db.addUserRecord(user_value, currentDate, currentTime);
       /*              if (res == true) {
 
                         Toast.makeText(ScanActivity.this, "SAVED TO DATABASE", Toast.LENGTH_SHORT).show();
@@ -216,7 +240,13 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
         }
     }
 
-    public void addAttendance(){
+    private void openDialog() {
+
+    Dialog dialog=new Dialog();
+    dialog.show(getSupportFragmentManager(), "dialog");
+    }
+
+    public void addAttendance() {
 
         // API call to server to check if user exists
 
@@ -238,6 +268,7 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
                     public void onResponse(JSONObject response) {
 
 
+
                         Toast.makeText(ScanActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
@@ -248,7 +279,7 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
                 Toast.makeText(ScanActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
 
             }
-        }){
+        }) {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json; charset=utf-8");

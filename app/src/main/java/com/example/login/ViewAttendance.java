@@ -30,7 +30,18 @@ public class ViewAttendance extends AppCompatActivity {
     DbHelper db;
     ListView listView;
     String user_value;
-    private String url = "http://192.168.0.129:3000/view_attendance";
+    /**
+     *
+     * For Home network
+     */
+    private String url = "http://192.168.0.10:3000/view_attendance";
+
+    //For college Guest Wifi 172.19.1.233
+    /**
+     *
+     * For College Guest Wifi network
+     */
+    //private String url = "http://172.19.1.233:3000/view_attendance";
 
    /* @Override
     public void onBackPressed() {
@@ -117,8 +128,6 @@ public class ViewAttendance extends AppCompatActivity {
 
             if (data.getCount() == 0) {
                 Toast.makeText(ViewAttendance.this, "No record in the database", Toast.LENGTH_SHORT).show();
-
-
             } else {
 
                 while (data.moveToNext()) {
@@ -128,7 +137,6 @@ public class ViewAttendance extends AppCompatActivity {
                     list.add(data.getString(3));
                     ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
                     listView.setAdapter(listAdapter);
-
                 }
             }
     }

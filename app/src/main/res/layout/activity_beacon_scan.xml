@@ -86,7 +86,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.558" />
 
-    <Button
+    <!--<Button
         android:id="@+id/btn_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="128dp"
         tools:layout_editor_absoluteY="602dp"
-        tools:text="Add Attendance" />
+        tools:text="Add Attendance" />-->
 
     <Button
         android:id="@+id/view_record"
@@ -120,4 +120,12 @@
             android:textColor="#ffffff" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_notification"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="20sp"
+        android:visibility="invisible"/>
+
 </LinearLayout>

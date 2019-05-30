@@ -24,6 +24,7 @@
         <activity android:name=".ViewAttendance" />
         <activity android:name=".ScanActivity" />
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".Lecturer_login" />
     </application>
 
 </manifest>

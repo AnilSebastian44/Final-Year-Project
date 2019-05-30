@@ -27,15 +27,16 @@
             android:id="@+id/edittext_username"
             android:layout_width="300dp"
             android:layout_height="50dp"
+
             android:layout_marginTop="10dp"
             android:background="@drawable/edit_round"
             android:inputType="textEmailAddress"
             android:drawableLeft="@drawable/username"
-            android:hint="@string/username"
+            android:hint="@string/lecture_email"
             android:paddingLeft="2dp" />
 
 
-        <!--<EditText
+       <!-- <EditText
             android:id="@+id/edittext_password"
             android:layout_width="300dp"
             android:layout_height="50dp"
@@ -44,6 +45,7 @@
             android:inputType="textPassword"
             android:drawableLeft="@drawable/password"
             android:hint="@string/password" />-->
+
 
         <android.support.design.widget.TextInputLayout
 
@@ -56,11 +58,9 @@
                 android:id="@+id/edittext_password"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 android:background="@drawable/edit_round"
                 android:drawableStart="@drawable/password"
                 android:inputType="textPassword"
-                android:textAlignment="viewStart"
                 android:textSize="18sp" />
         </android.support.design.widget.TextInputLayout>
 
@@ -70,10 +70,13 @@
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
-            android:text="Remember me"
+            android:text="@string/remember_me"
             android:textAlignment="viewStart"
             android:textColor="#ffffff"
             android:textStyle="bold" />
+
+
+
 
 
     </LinearLayout>

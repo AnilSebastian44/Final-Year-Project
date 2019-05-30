@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Attendance Login</string>
-    <string name="username">E-mail</string>
+    <string name="app_name">BLE Attendance</string>
+    <string name="username">Student email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="not_registered">Not registered ? </string>
@@ -23,4 +23,6 @@
     <string name="logout">Logout</string>
     <string name="view_attendance">View Attendance</string>
     <string name="add_attendance">Add Attendance</string>
+    <string name="lecture_email">Lecture email</string>
+    <string name="remember_me">Remember me</string>
 </resources>

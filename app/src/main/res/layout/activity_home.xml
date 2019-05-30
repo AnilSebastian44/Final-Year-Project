@@ -30,7 +30,7 @@
         android:layout_width="190dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
-        android:background="@android:color/holo_blue_dark"
+        android:background="@drawable/button_round"
         android:text="@string/Student"
         android:textColor="#ffffff" />
 
@@ -39,7 +39,7 @@
         android:layout_width="190dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
-        android:background="@android:color/holo_blue_dark"
+        android:background="@drawable/button_round"
         android:text="@string/Lecturer"
         android:textColor="#ffffff" />
 
@@ -48,7 +48,7 @@
         android:layout_width="190dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
-        android:background="@android:color/holo_blue_dark"
+        android:background="@drawable/button_round"
         android:text="@string/Admin"
         android:textColor="#ffffff" />
 

@@ -36,7 +36,7 @@ public class Home_Activity extends AppCompatActivity {
         lecturer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent login = new Intent(Home_Activity.this, MainActivity.class);
+                Intent login = new Intent(Home_Activity.this, Lecturer_login.class);
                 //HomePage.putExtra("User",userName);
                 startActivity(login);
 

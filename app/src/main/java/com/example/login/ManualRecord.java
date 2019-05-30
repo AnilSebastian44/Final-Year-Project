@@ -27,9 +27,20 @@ import java.util.Map;
 public class ManualRecord extends AppCompatActivity {
     EditText record;
     Button record_btn, view_btn;
-    DbHelper db;
-    private String url = "http://192.168.0.129:3000/record_auth";
-    private String add_url = "http://192.168.0.129:3000/add_attendance";
+
+
+    /**
+     * For Home network
+     */
+    private String url = "http://192.168.0.10:3000/record_auth";
+    private String add_url = "http://192.168.0.10:3000/add_attendance";
+
+    /**
+     * For College Guest Wifi network
+     */
+    //private String url = "http://172.19.1.233:3000/record_auth";
+    //private String add_url = "http://172.19.1.233:3000/add_attendance";
+
     String userName;
     String currentTime;
     String currentDate;
@@ -48,7 +59,7 @@ public class ManualRecord extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manual_record);
 
-        db = new DbHelper(this);
+
         record = (findViewById(R.id.tv_record));
         view_btn = findViewById(R.id.view_record);
         record_btn = (findViewById(R.id.btn_record));
@@ -59,7 +70,7 @@ public class ManualRecord extends AppCompatActivity {
                 userName = record.getText().toString().trim();
                 String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-                boolean info = db.checkEmail(userName);
+                //boolean info = db.checkEmail(userName);
                 if (userName != null && userName.matches(emailPattern)) {
                     //Validate user email
                     validateUser();
@@ -77,25 +88,25 @@ public class ManualRecord extends AppCompatActivity {
                 }
 
 
-                if (userName !=null && currentDate != null && currentTime != null) {
+                if (userName != null && currentDate != null && currentTime != null) {
 
-                      //  addAttendance();
+                    //  addAttendance();
 
-                        //boolean res = db.addUserRecord(userName, currentDate, currentTime);
-                        if (true) {
+                    //boolean res = db.addUserRecord(userName, currentDate, currentTime);
+                    if (true) {
 
-                            //call the record data api
+                        //call the record data api
 
-                            Toast.makeText(ManualRecord.this, "SAVED TO DATABASE", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ManualRecord.this, "SAVED TO DATABASE", Toast.LENGTH_SHORT).show();
 
-                            view_btn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent View_attendance = new Intent(ManualRecord.this, ViewAttendance.class);
-                                    startActivity(View_attendance);
-                                }
-                            });
-                        }
+                        view_btn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent View_attendance = new Intent(ManualRecord.this, ViewAttendance.class);
+                                startActivity(View_attendance);
+                            }
+                        });
+                    }
 
                 } else
                     Toast.makeText(ManualRecord.this, "User not registered", Toast.LENGTH_SHORT).show();
@@ -104,11 +115,9 @@ public class ManualRecord extends AppCompatActivity {
         });
 
 
-
-
     }
 
-    public void validateUser(){
+    public void validateUser() {
         RequestQueue mRequest = Volley.newRequestQueue(getApplicationContext());
 
         Map<String, String> jsonParams = new HashMap<String, String>();
@@ -143,7 +152,7 @@ public class ManualRecord extends AppCompatActivity {
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers  = new HashMap<String, String>();
+                HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json; charset=utf-8");
                 headers.put("User-agent", "My user agent");
                 return headers;
@@ -158,7 +167,7 @@ public class ManualRecord extends AppCompatActivity {
     }
 
 
-    public void addAttendance(){
+    public void addAttendance() {
 
         // API call to server to check if user exists
 
@@ -180,7 +189,7 @@ public class ManualRecord extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         //Toast.makeText(ManualRecord.this, "SAVED TO DATABASE", Toast.LENGTH_SHORT).show();
 
-                       // Toast.makeText(ManualRecord.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(ManualRecord.this, response.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -190,7 +199,7 @@ public class ManualRecord extends AppCompatActivity {
                 //Toast.makeText(ManualRecord.this, error.toString(), Toast.LENGTH_SHORT).show();
 
             }
-        }){
+        }) {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json; charset=utf-8");
