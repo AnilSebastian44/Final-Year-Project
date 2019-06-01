@@ -1,9 +1,14 @@
 package com.example.login;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -95,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                //call the function to check if the internet on
+                isInternetOn();
 
                 userName = mTextUsername.getText().toString();
                 passw = mTextPassword.getText().toString();
@@ -184,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
 
-                Toast.makeText(MainActivity.this, "In-valid Email or Password", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "In-valid Email or Password", Toast.LENGTH_SHORT).show();
 
                 // Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
             }
@@ -219,4 +226,38 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void isInternetOn() {
+
+        ConnectivityManager mgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = mgr.getActiveNetworkInfo();
+
+        if (netInfo != null) {
+            if (netInfo.isConnected()) {
+            }
+            // Internet Available
+        }else {
+            //No internet
+            Toast.makeText(MainActivity.this, "No internet connection!", Toast.LENGTH_LONG).show();
+            /**
+             * No internet
+             */
+            AlertDialog.Builder Alert = new AlertDialog.Builder(MainActivity.this);
+            Alert.setMessage("Internet")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setTitle("Network")
+                    .setMessage("No internet connection! ")
+                    .create();
+            Alert.show();
+
+        }
+
+
+    }
 }
+

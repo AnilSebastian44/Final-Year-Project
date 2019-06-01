@@ -1,11 +1,15 @@
 package com.example.login;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -20,13 +24,26 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ManualRecord extends AppCompatActivity {
+public class ManualRecord extends ListActivity {
     EditText record;
     Button record_btn, view_btn;
+
+
+    String[] users={
+            "admin@admin.com",
+            "email@email.com",
+            "student@stud.com",
+            "admin@admin.com",
+            "email@email.com",
+            "student@stud.com",
+            "admin@admin.com",
+            "email@email.com",
+            "student@stud.com"};
 
 
     /**
@@ -53,11 +70,38 @@ public class ManualRecord extends AppCompatActivity {
         startActivity(intent);
         finish();
     }*/
+    public void onListItemClick(ListView parent, View v,int position,long id){
+        CheckedTextView item = (CheckedTextView) v;
+        if(item.isChecked()){
 
+            userName=users[position];
+
+        }
+        Toast.makeText(this, userName + " is Checked : " +
+                item.isChecked(), Toast.LENGTH_SHORT).show();
+       /* Toast.makeText(this, users[position].toString() + " checked : " +
+                item.isChecked(), Toast.LENGTH_SHORT).show();*/
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manual_record);
+
+
+        // -- Display mode of the ListView
+
+        ListView listview= getListView();
+        //	listview.setChoiceMode(listview.CHOICE_MODE_NONE);
+        //	listview.setChoiceMode(listview.CHOICE_MODE_SINGLE);
+        listview.setChoiceMode(listview.CHOICE_MODE_MULTIPLE);
+
+        //--	text filtering
+        listview.setTextFilterEnabled(true);
+
+        setListAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.select_dialog_multichoice,users));
+        //simple_list_item_checked,users
 
 
         record = (findViewById(R.id.tv_record));
@@ -67,7 +111,7 @@ public class ManualRecord extends AppCompatActivity {
         record_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userName = record.getText().toString().trim();
+                //userName = record.getText().toString().trim();
                 String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
                 //boolean info = db.checkEmail(userName);
@@ -107,15 +151,12 @@ public class ManualRecord extends AppCompatActivity {
                             }
                         });
                     }
-
                 } else
                     Toast.makeText(ManualRecord.this, "User not registered", Toast.LENGTH_SHORT).show();
-
             }
         });
-
-
     }
+
 
     public void validateUser() {
         RequestQueue mRequest = Volley.newRequestQueue(getApplicationContext());
@@ -123,7 +164,6 @@ public class ManualRecord extends AppCompatActivity {
         Map<String, String> jsonParams = new HashMap<String, String>();
 
         jsonParams.put("userName", userName);
-
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url,
                 new JSONObject(jsonParams),
@@ -135,21 +175,17 @@ public class ManualRecord extends AppCompatActivity {
 
                         Toast.makeText(ManualRecord.this, "Attendance Recorded", Toast.LENGTH_SHORT).show();
 
-
                         Toast.makeText(ManualRecord.this, response.toString(), Toast.LENGTH_SHORT).show();
-
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 Toast.makeText(ManualRecord.this, "Invalid Email", Toast.LENGTH_SHORT).show();
-
                 //Toast.makeText(ManualRecord.this, error.toString(), Toast.LENGTH_SHORT).show();
-
             }
-
-        }) {
+        })
+        {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
@@ -163,7 +199,6 @@ public class ManualRecord extends AppCompatActivity {
         // RequestQueue mRequest = Volley.newRequestQueue(getApplicationContext());
 
         mRequest.add(jsonObjectRequest);
-
     }
 
 
@@ -197,15 +232,12 @@ public class ManualRecord extends AppCompatActivity {
                 VolleyLog.d(TAG, "Some Error: " + error.getMessage());
 
                 //Toast.makeText(ManualRecord.this, error.toString(), Toast.LENGTH_SHORT).show();
-
             }
         }) {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json; charset=utf-8");
                 return headers;
-
-
             }
         };
 
@@ -213,7 +245,6 @@ public class ManualRecord extends AppCompatActivity {
         // RequestQueue mRequest = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(jsonObjectRequest);
     }
-
 }
 
 

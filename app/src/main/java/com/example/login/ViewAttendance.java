@@ -27,6 +27,8 @@ import java.util.Map;
 public class ViewAttendance extends AppCompatActivity {
     private static final String TAG = "ViewAttendance";
 
+
+
     DbHelper db;
     ListView listView;
     String user_value;
@@ -55,6 +57,8 @@ public class ViewAttendance extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_attendance);
+
+
 
 
         listView = findViewById(R.id.listView);

@@ -47,5 +47,20 @@
         tools:layout_editor_absoluteY="520dp"
         tools:text="View Attendance" />
 
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        >
+
+    </ListView>
+    <Button
+        android:id="@+id/btshow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show selected items"
+        />
+
 
 </LinearLayout>
