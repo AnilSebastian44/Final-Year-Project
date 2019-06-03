@@ -20,7 +20,8 @@
         android:background="#ffffff"
         android:hint="email@email.com"
         android:inputType="textEmailAddress"
-        android:paddingLeft="2dp"
+        android:paddingLeft="10dp"
+        android:layout_marginBottom="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.464"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -28,39 +29,48 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.147" />
 
-    <Button
-        android:id="@+id/btn_record"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Record Button"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="128dp"
-        tools:layout_editor_absoluteY="520dp"
-        tools:text="Record Attendance" />
-
-    <Button
-        android:id="@+id/view_record"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Attendance"
-        tools:layout_editor_absoluteX="128dp"
-        tools:layout_editor_absoluteY="520dp"
-        tools:text="View Attendance" />
-
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
-        >
-
+        android:background="#ffffff">
     </ListView>
+
     <Button
-        android:id="@+id/btshow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Show selected items"
+        android:id="@+id/btn_record"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:text="Record Button"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="128dp"
+        tools:layout_editor_absoluteY="520dp"
+        tools:text="Record Attendance"
+        android:layout_marginTop="20dp"
+        android:textColor="#ffffff"
+        android:background="@drawable/button_round"
+
         />
+
+    <Button
+        android:id="@+id/view_record"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_round"
+        android:text="View Attendance"
+        android:textColor="#ffffff"
+        tools:layout_editor_absoluteX="128dp"
+        tools:layout_editor_absoluteY="520dp"
+        tools:text="View Attendance" />
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/holo_blue_dark"
+        android:text="@string/logout"
+        android:textColor="#ffffff" />
 
 
 </LinearLayout>

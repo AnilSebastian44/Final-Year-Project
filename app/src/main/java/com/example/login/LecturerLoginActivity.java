@@ -31,7 +31,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Lecturer_login extends AppCompatActivity {
+public class LecturerLoginActivity extends AppCompatActivity {
 
     EditText mTextUsername;
     //EditText mTextPassword;
@@ -51,7 +51,7 @@ public class Lecturer_login extends AppCompatActivity {
 
     String userName;
     String passw;
-    private String TAG = MainActivity.class.getName();
+    private String TAG = LoginActivity.class.getName();
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -62,7 +62,7 @@ public class Lecturer_login extends AppCompatActivity {
 
     /*@Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, Home_Activity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();
     }*/
@@ -91,7 +91,7 @@ public class Lecturer_login extends AppCompatActivity {
        /* mTextViewRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent registerIntent = new Intent(Lecturer_login.this, RegisterActivity.class);
+                Intent registerIntent = new Intent(LecturerLoginActivity.this, RegisterActivity.class);
                 startActivity(registerIntent);
             }
         });*/
@@ -109,13 +109,13 @@ public class Lecturer_login extends AppCompatActivity {
                 String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
                 /*if (userName.matches(emailPattern)) {
-                    Toast.makeText(Lecturer_login.this, "Valid E-mail Address", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LecturerLoginActivity.this, "Valid E-mail Address", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(Lecturer_login.this, "Invalid E-mail Address", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LecturerLoginActivity.this, "Invalid E-mail Address", Toast.LENGTH_SHORT).show();
                 }*/
 
                 if (mTextUsername.getText().length() == 0 || mTextPassword.getText().length() == 0) {
-                    Toast.makeText(Lecturer_login.this, "E-mail Address or Password is Empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LecturerLoginActivity.this, "E-mail Address or Password is Empty", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -154,17 +154,17 @@ public class Lecturer_login extends AppCompatActivity {
                          * */
                         login();
 
-                        Intent HomePage = new Intent(Lecturer_login.this, ManualRecord.class);
+                        Intent HomePage = new Intent(LecturerLoginActivity.this, ManualRecord.class);
                         HomePage.putExtra("User", userName);
                         startActivity(HomePage);
-                        Toast.makeText(Lecturer_login.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LecturerLoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                Toast.makeText(Lecturer_login.this, "In-valid Email or Password", Toast.LENGTH_LONG).show();
-                //Toast.makeText(Lecturer_login.this, error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LecturerLoginActivity.this, "In-valid Email or Password", Toast.LENGTH_LONG).show();
+                //Toast.makeText(LecturerLoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
             }
 
         }) {
@@ -188,7 +188,7 @@ public class Lecturer_login extends AppCompatActivity {
         String password = mTextPassword.getText().toString();
 
         if (username.equals(userName) && password.equals(passw)) {
-            Toast.makeText(Lecturer_login.this, "Valid user", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LecturerLoginActivity.this, "Valid user", Toast.LENGTH_SHORT).show();
 
             if (cb_save.isChecked()) {
                 editor.putBoolean("saveLogin", true);
@@ -197,7 +197,7 @@ public class Lecturer_login extends AppCompatActivity {
                 editor.apply();
             }
         } else {
-            Toast.makeText(Lecturer_login.this, "Error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LecturerLoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -212,11 +212,11 @@ public class Lecturer_login extends AppCompatActivity {
             // Internet Available
         }else {
             //No internet
-            Toast.makeText(Lecturer_login.this, "No internet connection!", Toast.LENGTH_LONG).show();
+            Toast.makeText(LecturerLoginActivity.this, "No internet connection!", Toast.LENGTH_LONG).show();
             /**
              * No internet
              */
-            AlertDialog.Builder Alert = new AlertDialog.Builder(Lecturer_login.this);
+            AlertDialog.Builder Alert = new AlertDialog.Builder(LecturerLoginActivity.this);
             Alert.setMessage("Internet")
                     .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                         @Override

@@ -1,8 +1,10 @@
 package com.example.login;
 
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -31,7 +33,7 @@ import java.util.Map;
 
 public class ManualRecord extends ListActivity {
     EditText record;
-    Button record_btn, view_btn;
+    Button record_btn, view_btn, logout;
 
 
     String[] users={
@@ -155,6 +157,22 @@ public class ManualRecord extends ListActivity {
                     Toast.makeText(ManualRecord.this, "User not registered", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        logout = findViewById(R.id.btn_logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               /*SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove("username");
+                editor.remove("password");
+                editor.apply();*/
+
+                Intent Homepage = new Intent(ManualRecord.this, LoginActivity.class);
+                startActivity(Homepage);
+
+            }
+        });
     }
 
 
@@ -172,6 +190,23 @@ public class ManualRecord extends ListActivity {
                     public void onResponse(JSONObject response) {
                         //if it is valid user  call the add attendance function
                         addAttendance();
+                        /**
+                         * Giving user feedback on their attendance being recorded
+                         */
+                        AlertDialog.Builder Alert = new AlertDialog.Builder(ManualRecord.this);
+                        Alert.setMessage("Attendance")
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .setTitle("Attendance for: " + userName)
+                                .setMessage("Recorded at: " + currentTime + "\n"+ "\n"
+                                        + "On the: " + currentDate + "\n"+ "\n"
+                                        + "For the class: " + "Some class")
+                                .create();
+                        Alert.show();
 
                         Toast.makeText(ManualRecord.this, "Attendance Recorded", Toast.LENGTH_SHORT).show();
 

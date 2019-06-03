@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-public class Home_Activity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
 
     Button student;
@@ -20,13 +20,13 @@ public class Home_Activity extends AppCompatActivity {
 
         student = findViewById(R.id.btn_student);
         lecturer = findViewById(R.id.btn_lecturer);
-        admin = findViewById(R.id.btn_admin);
+        //admin = findViewById(R.id.btn_admin);
 
 
         student.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent login = new Intent(Home_Activity.this, MainActivity.class);
+                Intent login = new Intent(HomeActivity.this, LoginActivity.class);
                 //HomePage.putExtra("User",userName);
                 startActivity(login);
 
@@ -36,22 +36,22 @@ public class Home_Activity extends AppCompatActivity {
         lecturer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent login = new Intent(Home_Activity.this, Lecturer_login.class);
+                Intent login = new Intent(HomeActivity.this, LecturerLoginActivity.class);
                 //HomePage.putExtra("User",userName);
                 startActivity(login);
 
             }
         });
 
-        admin.setOnClickListener(new View.OnClickListener() {
+       /* admin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent login = new Intent(Home_Activity.this, MainActivity.class);
+                Intent login = new Intent(HomeActivity.this, LoginActivity.class);
                 //HomePage.putExtra("User",userName);
                 startActivity(login);
 
             }
-        });
+        });*/
 
     }
 }

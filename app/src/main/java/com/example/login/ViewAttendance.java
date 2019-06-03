@@ -66,7 +66,7 @@ public class ViewAttendance extends AppCompatActivity {
 
         ArrayList<String> list = new ArrayList<>();
 
-        //getting value of user login from MainActivity
+        //getting value of user login from LoginActivity
        Bundle extras = getIntent().getExtras();
         if (extras != null) {
             user_value = (String) extras.get("User");

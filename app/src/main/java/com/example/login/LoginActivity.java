@@ -31,7 +31,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     EditText mTextUsername;
     //EditText mTextPassword;
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     String userName;
     String passw;
-    private String TAG = MainActivity.class.getName();
+    private String TAG = LoginActivity.class.getName();
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     /*@Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, Home_Activity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();
     }*/
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
        /* mTextViewRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent registerIntent = new Intent(MainActivity.this, RegisterActivity.class);
+                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(registerIntent);
             }
         });*/
@@ -108,13 +108,13 @@ public class MainActivity extends AppCompatActivity {
                 String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
                 /*if (userName.matches(emailPattern)) {
-                    Toast.makeText(MainActivity.this, "Valid E-mail Address", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Valid E-mail Address", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(MainActivity.this, "Invalid E-mail Address", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Invalid E-mail Address", Toast.LENGTH_SHORT).show();
                 }*/
 
                 if (mTextUsername.getText().length() == 0 || mTextPassword.getText().length() == 0) {
-                    Toast.makeText(MainActivity.this, "E-mail Address or Password is Empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "E-mail Address or Password is Empty", Toast.LENGTH_SHORT).show();
                 }
 
                 /**
@@ -125,14 +125,14 @@ public class MainActivity extends AppCompatActivity {
 //                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 //
 //                if (userName.matches(emailPattern)) {
-//                    Toast.makeText(MainActivity.this, "Valid E-mail Address", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(LoginActivity.this, "Valid E-mail Address", Toast.LENGTH_SHORT).show();
 //                } else {
-//                    Toast.makeText(MainActivity.this, "Invalid E-mail Address", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(LoginActivity.this, "Invalid E-mail Address", Toast.LENGTH_SHORT).show();
 //                }
 //
 //                String pass = mTextPassword.getText().toString().trim();
 //                if (mTextUsername.getText().length() == 0 || mTextPassword.getText().length() == 0) {
-//                    Toast.makeText(MainActivity.this, "E-mail Address or Password is Empty", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(LoginActivity.this, "E-mail Address or Password is Empty", Toast.LENGTH_SHORT).show();
 //                }
 //
 //                boolean res = db.checkUser(userName, pass);
@@ -140,14 +140,14 @@ public class MainActivity extends AppCompatActivity {
 //
 //                    /*//if user name exists
 //                    if(db.rowIdExists(user)){
-//                        Toast.makeText(MainActivity.this, "Username exist", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(LoginActivity.this, "Username exist", Toast.LENGTH_SHORT).show();
 //                    }*/
 //
-//                    Intent HomePage = new Intent(MainActivity.this, ScanActivity.class);
+//                    Intent HomePage = new Intent(LoginActivity.this, ScanActivity.class);
 //                    HomePage.putExtra("User", userName);
 //                    startActivity(HomePage);
 //                } else {
-//                    Toast.makeText(MainActivity.this, "Invalid Password", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(LoginActivity.this, "Invalid Password", Toast.LENGTH_SHORT).show();
 //                }
 
             }
@@ -181,19 +181,19 @@ public class MainActivity extends AppCompatActivity {
                          * */
                         login();
 
-                        Intent HomePage = new Intent(MainActivity.this, ScanActivity.class);
+                        Intent HomePage = new Intent(LoginActivity.this, ScanActivity.class);
                         HomePage.putExtra("User", userName);
                         startActivity(HomePage);
-                        Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
 
-                Toast.makeText(MainActivity.this, "In-valid Email or Password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "In-valid Email or Password", Toast.LENGTH_SHORT).show();
 
-                // Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
             }
 
         }) {
@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
         String password = mTextPassword.getText().toString();
 
         if (username.equals(userName) && password.equals(passw)) {
-            //Toast.makeText(MainActivity.this, "Valid user", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(LoginActivity.this, "Valid user", Toast.LENGTH_SHORT).show();
 
             if (cb_save.isChecked()) {
                 editor.putBoolean("saveLogin", true);
@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.apply();
             }
         } else {
-            Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -238,11 +238,11 @@ public class MainActivity extends AppCompatActivity {
             // Internet Available
         }else {
             //No internet
-            Toast.makeText(MainActivity.this, "No internet connection!", Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "No internet connection!", Toast.LENGTH_LONG).show();
             /**
              * No internet
              */
-            AlertDialog.Builder Alert = new AlertDialog.Builder(MainActivity.this);
+            AlertDialog.Builder Alert = new AlertDialog.Builder(LoginActivity.this);
             Alert.setMessage("Internet")
                     .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                         @Override
@@ -256,8 +256,6 @@ public class MainActivity extends AppCompatActivity {
             Alert.show();
 
         }
-
-
     }
 }
 

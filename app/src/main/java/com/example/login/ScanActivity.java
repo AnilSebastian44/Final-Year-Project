@@ -2,7 +2,6 @@ package com.example.login;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -54,15 +53,13 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
      */
     //private String url = "http://172.19.1.233:3000/add_atendance";
 
-    SharedPreferences sharedPreferences;
 
     /*@Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }*/
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,7 +113,7 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
                 editor.remove("password");
                 editor.apply();*/
 
-                Intent Homepage = new Intent(ScanActivity.this, MainActivity.class);
+                Intent Homepage = new Intent(ScanActivity.this, LoginActivity.class);
                 startActivity(Homepage);
 
             }
@@ -176,12 +173,13 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
     public void didEnterBeacon(Beacon beacon) {
         Log.d("app", "Entered beacon with UUID " + beacon.getUUID() + beacon.getMinor() + beacon.getMajor());
 
-       // Toast.makeText(ScanActivity.this, beacon.getUUID() + "Found assigned beacons UUID", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(ScanActivity.this, beacon.getUUID() + "Found assigned beacons UUID", Toast.LENGTH_SHORT).show();
 
 
         //checking if the UUID found is the right beacon.
         //Mint Green beacon class 1
-        if (beacon.getUUID().toString().equals(uuid_match) && beacon.getMajor() == greenMajor) {
+        //&& beacon.getMajor() == greenMajor
+        if (beacon.getUUID().toString().equals(uuid_match) ) {
 
             //setting text
             uuid.setText("UUID: " + beacon.getUUID().toString());
@@ -189,7 +187,7 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
             matching.setText("UUID IS MATCHING");
 
 
-            //getting value of user login from MainActivity
+            //getting value of user login from LoginActivity
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 user_value = (String) extras.get("User");
@@ -221,7 +219,7 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
 
                     /**
                      * Giving user feedback on their attendance being recorded
-                    */
+                     */
                     AlertDialog.Builder Alert = new AlertDialog.Builder(this);
                     Alert.setMessage("Attendance")
                             .setPositiveButton("ok", new DialogInterface.OnClickListener() {
@@ -231,8 +229,8 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
                                 }
                             })
                             .setTitle("Attendance for: " + user_value)
-                            .setMessage("Recorded at: " + currentTime + "\n"+ "\n"
-                                    + "On the: " + currentDate + "\n"+ "\n"
+                            .setMessage("Recorded at: " + currentTime + "\n" + "\n"
+                                    + "On the: " + currentDate + "\n" + "\n"
                                     + "For the class: " + "Some class")
                             .create();
                     Alert.show();
