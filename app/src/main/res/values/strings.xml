@@ -25,4 +25,7 @@
     <string name="add_attendance">Add Attendance</string>
     <string name="lecture_email">Lecture email</string>
     <string name="remember_me">Remember me</string>
+    <string name="addAttendance">Add Attendance</string>
+    <string name="viewAttendance">View Attendance</string>
+    <string name="email_email_com">email@email.com</string>
 </resources>

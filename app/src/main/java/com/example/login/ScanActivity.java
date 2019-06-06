@@ -36,17 +36,25 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
 
     private static final String TAG = "ScanActivity";
     TextView uuid, matching, user, date, time, notification;
-    Button view_btn, add_attendance, logout;
+    Button view_btn, logout;
     String uuid_match = "b9407f30-f5f8-466e-aff9-25556b57fe6d";
     Integer greenMajor = 47505;
     String currentDate;
     String currentTime;
     String user_value;
+    String class_id;
+
 
     /**
-     * For Home network
+     * Url for the POST request
      */
-    private String url = "http://192.168.0.10:3000/add_attendance";
+    //private String url = "http://192.168.0.10:3000/add_attendance";
+
+    /**
+     * For Mobile hotspot network
+     */
+    private String url = "http://192.168.43.247:3000/add_attendance";
+    //192.168.43.247
 
     /**
      * For College Guest Wifi network
@@ -79,29 +87,6 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
 
         //attendance view button
         view_btn = findViewById(R.id.view_record);
-/*
-        add_attendance = findViewById(R.id.btn_add);
-        add_attendance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent add_attendance = new Intent(ScanActivity.this, ManualRecord.class);
-                startActivity(add_attendance);
-
-            }
-        });*/
-
-        /*AlertDialog.Builder myAlert = new AlertDialog.Builder(this);
-        myAlert.setMessage(user_value)
-                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .setTitle("Attendance")
-                .setMessage("Your attendance is being recorded")
-                .create();
-        myAlert.show();*/
 
 //sharedPreferences= getSharedPreferences("loginPref",MODE_PRIVATE);
         logout = findViewById(R.id.btn_logout);
@@ -115,24 +100,22 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
 
                 Intent Homepage = new Intent(ScanActivity.this, LoginActivity.class);
                 startActivity(Homepage);
-
             }
         });
-
     }
-
 
     @Override
     protected void onResume() {
 
-
+        //requesting required permissions
         if (!SystemRequirementsChecker.checkWithDefaultDialogs(this)) {
             Log.e(TAG, "Can't scan for beacons, some pre-conditions were not met");
-            //Log.e(TAG, "Read more about what's required at: http://estimote.github.io/Android-SDK/JavaDocs/com/estimote/sdk/SystemRequirementsChecker.html");
-            //Log.e(TAG, "If this is fixable, you should see a popup on the app's screen right now, asking to enable what's necessary");
         } else {
             Log.d(TAG, "Start monitoring");
 
+            /**
+             * Multiple beacons for multiple classes
+             */
             //green beacon
             Beacon beacon = Beacon.newBuilder()
                     .setUUID("B9407F30-F5F8-466E-AFF9-25556B57FE6D")
@@ -141,7 +124,7 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
                     .build();
             IBeaconScanner.getInstance().startMonitoring(beacon);
 
-            //Ice Blue beacon
+ /*           //Ice Blue beacon
             Beacon beacon1 = Beacon.newBuilder()
                     .setUUID("B9407F30-F5F8-466E-AFF9-25556B57FE6D")
                     .setMajor(21443)
@@ -155,7 +138,7 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
                     .setMajor(25871)
                     .setMinor(64122)
                     .build();
-            IBeaconScanner.getInstance().startMonitoring(beacon2);
+            IBeaconScanner.getInstance().startMonitoring(beacon2);*/
 
         }
         super.onResume();
@@ -179,20 +162,19 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
         //checking if the UUID found is the right beacon.
         //Mint Green beacon class 1
         //&& beacon.getMajor() == greenMajor
-        if (beacon.getUUID().toString().equals(uuid_match) ) {
+        if (beacon.getUUID().toString().equals(uuid_match)) {
+
+            class_id = "2";
 
             //setting text
             uuid.setText("UUID: " + beacon.getUUID().toString());
 
             matching.setText("UUID IS MATCHING");
-
-
             //getting value of user login from LoginActivity
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 user_value = (String) extras.get("User");
                 user.setText(user_value);
-
 
                 //getting the current time
                 Calendar calendar = Calendar.getInstance();
@@ -206,7 +188,6 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
                 //Registered Date
                 currentDate = timeFormat.format(calendar.getTime());
                 date.setText(currentDate);
-
 
                 //adding username, date and time to the database table RecordUsers
 
@@ -231,7 +212,7 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
                             .setTitle("Attendance for: " + user_value)
                             .setMessage("Recorded at: " + currentTime + "\n" + "\n"
                                     + "On the: " + currentDate + "\n" + "\n"
-                                    + "For the class: " + "Some class")
+                                    + "For the class: " + class_id)
                             .create();
                     Alert.show();
 
@@ -246,34 +227,21 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
                         }
                     });
 
-                    // boolean res = db.addUserRecord(user_value, currentDate, currentTime);
-      /*              if (res == true) {
-
-                        Toast.makeText(ScanActivity.this, "SAVED TO DATABASE", Toast.LENGTH_SHORT).show();
-                        view_btn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent View_attandance = new Intent(ScanActivity.this, ViewAttendance.class);
-                                View_attandance.putExtra("User", value);
-                                startActivity(View_attandance);
-                            }
-                        });
-                    }// end of if
-
-    */
+                } else {
+                    Toast.makeText(ScanActivity.this, "Attendance not recorded", Toast.LENGTH_SHORT).show();
                 }
 
-                //record attandance
-
             } else {
-                matching.setText("UUID NOT MATCHING");
-                Toast.makeText(ScanActivity.this, "Beacon UUID not matching", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ScanActivity.this, "No user value", Toast.LENGTH_SHORT).show();
             }
-
+        } else {
+            matching.setText("UUID NOT MATCHING");
+            Toast.makeText(ScanActivity.this, "Beacon UUID not matching", Toast.LENGTH_SHORT).show();
         }
     }
 
     public void addAttendance() {
+        Log.d("ADD ATTENDANCE", "Attendance added");
 
         /**
          *  API call to server to add attendance
@@ -289,6 +257,7 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
         jsonParams.put("date", currentDate);
         jsonParams.put("time", currentTime);
 
+
         //POST
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url,
                 new JSONObject(jsonParams),
@@ -303,7 +272,7 @@ public class ScanActivity extends AppCompatActivity implements IBeaconScanner.Ca
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Some Error: " + error.getMessage());
 
-                Toast.makeText(ScanActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ScanActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
 
             }
         }) {

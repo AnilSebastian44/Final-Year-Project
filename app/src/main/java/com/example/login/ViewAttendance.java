@@ -1,6 +1,5 @@
 package com.example.login;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +27,6 @@ public class ViewAttendance extends AppCompatActivity {
     private static final String TAG = "ViewAttendance";
 
 
-
     DbHelper db;
     ListView listView;
     String user_value;
@@ -36,11 +34,16 @@ public class ViewAttendance extends AppCompatActivity {
      *
      * For Home network
      */
-    private String url = "http://192.168.0.10:3000/view_attendance";
+    //private String url = "http://192.168.0.10:3000/view_attendance";
+
+    /**
+     * For Mobile hotspot
+     */
+    private String url = "http://192.168.43.247:3000/view_attendance";
 
     //For college Guest Wifi 172.19.1.233
+
     /**
-     *
      * For College Guest Wifi network
      */
     //private String url = "http://172.19.1.233:3000/view_attendance";
@@ -52,13 +55,10 @@ public class ViewAttendance extends AppCompatActivity {
         startActivity(intent);
         finish();
     }*/
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_attendance);
-
-
 
 
         listView = findViewById(R.id.listView);
@@ -67,7 +67,7 @@ public class ViewAttendance extends AppCompatActivity {
         ArrayList<String> list = new ArrayList<>();
 
         //getting value of user login from LoginActivity
-       Bundle extras = getIntent().getExtras();
+        Bundle extras = getIntent().getExtras();
         if (extras != null) {
             user_value = (String) extras.get("User");
             //user.setText(value);
@@ -100,7 +100,7 @@ public class ViewAttendance extends AppCompatActivity {
                     Toast.makeText(ViewAttendance.this, error.toString(), Toast.LENGTH_SHORT).show();
 
                 }
-            }){
+            }) {
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     HashMap<String, String> headers = new HashMap<>();
                     headers.put("Content-Type", "application/json; charset=utf-8");
@@ -117,31 +117,31 @@ public class ViewAttendance extends AppCompatActivity {
         }
 
 
-            //Cursor data = db.getRecordData(value);*/
+        //Cursor data = db.getRecordData(value);*/
 
 
-            //Cursor data = db.getRecordData();
+        //Cursor data = db.getRecordData();
 
-            Cursor data;
-            //getting specific data
-            //data= db.getSpecificData(value);
+        Cursor data;
+        //getting specific data
+        //data= db.getSpecificData(value);
 
-            //getting all the data
-            data = db.getRecordData();
+        //getting all the data
+        data = db.getRecordData();
 
 
-            if (data.getCount() == 0) {
-                Toast.makeText(ViewAttendance.this, "No record in the database", Toast.LENGTH_SHORT).show();
-            } else {
+        if (data.getCount() == 0) {
+            Toast.makeText(ViewAttendance.this, "No record in the database", Toast.LENGTH_SHORT).show();
+        } else {
 
-                while (data.moveToNext()) {
+            while (data.moveToNext()) {
 
-                    list.add(data.getString(1));
-                    list.add(data.getString(2));
-                    list.add(data.getString(3));
-                    ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
-                    listView.setAdapter(listAdapter);
-                }
+                list.add(data.getString(1));
+                list.add(data.getString(2));
+                list.add(data.getString(3));
+                ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+                listView.setAdapter(listAdapter);
             }
+        }
     }
 }

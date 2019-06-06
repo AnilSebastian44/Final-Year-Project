@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,7 +25,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +34,7 @@ public class ManualRecord extends ListActivity {
     Button record_btn, view_btn, logout;
 
 
-    String[] users={
+    String[] users = {
             "admin@admin.com",
             "email@email.com",
             "student@stud.com",
@@ -51,8 +49,15 @@ public class ManualRecord extends ListActivity {
     /**
      * For Home network
      */
-    private String url = "http://192.168.0.10:3000/record_auth";
-    private String add_url = "http://192.168.0.10:3000/add_attendance";
+    //private String url = "http://192.168.0.10:3000/record_auth";
+    //private String add_url = "http://192.168.0.10:3000/add_attendance";
+
+    /**
+     * For Mobile hotspot
+     */
+    private String url = "http://192.168.43.247:3000/record_auth";
+    private String add_url = "http://192.168.43.247:3000/add_attendance";
+
 
     /**
      * For College Guest Wifi network
@@ -72,11 +77,11 @@ public class ManualRecord extends ListActivity {
         startActivity(intent);
         finish();
     }*/
-    public void onListItemClick(ListView parent, View v,int position,long id){
+    public void onListItemClick(ListView parent, View v, int position, long id) {
         CheckedTextView item = (CheckedTextView) v;
-        if(item.isChecked()){
+        if (item.isChecked()) {
 
-            userName=users[position];
+            userName = users[position];
 
         }
         Toast.makeText(this, userName + " is Checked : " +
@@ -85,24 +90,23 @@ public class ManualRecord extends ListActivity {
                 item.isChecked(), Toast.LENGTH_SHORT).show();*/
 
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manual_record);
 
 
-        // -- Display mode of the ListView
+        //  Display mode of the ListView
 
-        ListView listview= getListView();
-        //	listview.setChoiceMode(listview.CHOICE_MODE_NONE);
-        //	listview.setChoiceMode(listview.CHOICE_MODE_SINGLE);
+        ListView listview = getListView();
         listview.setChoiceMode(listview.CHOICE_MODE_MULTIPLE);
 
-        //--	text filtering
+        //text filtering
         listview.setTextFilterEnabled(true);
 
         setListAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.select_dialog_multichoice,users));
+                android.R.layout.select_dialog_multichoice, users));
         //simple_list_item_checked,users
 
 
@@ -202,8 +206,8 @@ public class ManualRecord extends ListActivity {
                                     }
                                 })
                                 .setTitle("Attendance for: " + userName)
-                                .setMessage("Recorded at: " + currentTime + "\n"+ "\n"
-                                        + "On the: " + currentDate + "\n"+ "\n"
+                                .setMessage("Recorded at: " + currentTime + "\n" + "\n"
+                                        + "On the: " + currentDate + "\n" + "\n"
                                         + "For the class: " + "Some class")
                                 .create();
                         Alert.show();
@@ -219,8 +223,7 @@ public class ManualRecord extends ListActivity {
                 Toast.makeText(ManualRecord.this, "Invalid Email", Toast.LENGTH_SHORT).show();
                 //Toast.makeText(ManualRecord.this, error.toString(), Toast.LENGTH_SHORT).show();
             }
-        })
-        {
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();

@@ -43,7 +43,15 @@ public class LecturerLoginActivity extends AppCompatActivity {
     /**
      * For Home network
      */
-    private String url = "http://192.168.0.10:3000/lect_login_auth";
+    //private String url = "http://192.168.0.10:3000/lect_login_auth";
+
+
+    /**
+     * For Mobile hotspot
+     */
+   private String url = "http://192.168.43.247:3000/lect_login_auth";
+
+
     /**
      * For College Guest Wifi network
      */
@@ -72,16 +80,11 @@ public class LecturerLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lect_login);
 
-        //showProgressingView();
-        //hideProgressingView();
-
         mTextUsername = findViewById(R.id.edittext_username);
-       // mTextPassword = findViewById(R.id.edittext_password);
         mTextPassword=findViewById(R.id.edittext_password);
         mButtonLogin = findViewById(R.id.button_login);
-        // mTextViewRegister = findViewById(R.id.textview_register);
 
-
+        //saving user credentials using sharedpreferences
         sharedPreferences = getSharedPreferences("LoginLect", MODE_PRIVATE);
         cb_save = findViewById(R.id.checkBox);
         editor = sharedPreferences.edit();
@@ -108,16 +111,9 @@ public class LecturerLoginActivity extends AppCompatActivity {
                 passw = mTextPassword.getText().toString();
                 String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
-                /*if (userName.matches(emailPattern)) {
-                    Toast.makeText(LecturerLoginActivity.this, "Valid E-mail Address", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(LecturerLoginActivity.this, "Invalid E-mail Address", Toast.LENGTH_SHORT).show();
-                }*/
-
                 if (mTextUsername.getText().length() == 0 || mTextPassword.getText().length() == 0) {
                     Toast.makeText(LecturerLoginActivity.this, "E-mail Address or Password is Empty", Toast.LENGTH_SHORT).show();
                 }
-
 
                 /**
                  API call to server to check if user exists

@@ -11,7 +11,7 @@ public class HomeActivity extends AppCompatActivity {
 
     Button student;
     Button lecturer;
-    Button admin;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -36,20 +36,19 @@ public class LoginActivity extends AppCompatActivity {
     EditText mTextUsername;
     //EditText mTextPassword;
     TextInputEditText mTextPassword;
-    EditText mTextCnfPassword;
-    Button mButtonRegister;
     Button mButtonLogin;
-    TextView mTextViewLogin;
     TextView mTextViewRegister;
 
     /**
-     * For Home network
+     * Url for the POST request
      */
-    private String url = "http://192.168.0.10:3000/login_auth";
+    // private String url = "http://192.168.0.10:3000/login_auth";
+
     /**
-     * For College Guest Wifi network
+     * For mobile hotspot network
      */
-    //private String url = "http://172.19.1.233:3000/login_auth";
+    private String url = "http://192.168.43.247:3000/login_auth";
+
 
     String userName;
     String passw;
@@ -61,14 +60,6 @@ public class LoginActivity extends AppCompatActivity {
     CheckBox cb_save;
 
 
-
-    /*@Override
-    public void onBackPressed() {
-        Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);
-        finish();
-    }*/
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mTextUsername = findViewById(R.id.edittext_username);
         mTextPassword = findViewById(R.id.edittext_password);
-        mTextPassword= findViewById(R.id.edittext_password);
+        mTextPassword = findViewById(R.id.edittext_password);
         mButtonLogin = findViewById(R.id.button_login);
         mTextViewRegister = findViewById(R.id.textview_register);
 
@@ -122,37 +113,10 @@ public class LoginActivity extends AppCompatActivity {
                  */
                 validateUser();
 
-//                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-//
-//                if (userName.matches(emailPattern)) {
-//                    Toast.makeText(LoginActivity.this, "Valid E-mail Address", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(LoginActivity.this, "Invalid E-mail Address", Toast.LENGTH_SHORT).show();
-//                }
-//
-//                String pass = mTextPassword.getText().toString().trim();
-//                if (mTextUsername.getText().length() == 0 || mTextPassword.getText().length() == 0) {
-//                    Toast.makeText(LoginActivity.this, "E-mail Address or Password is Empty", Toast.LENGTH_SHORT).show();
-//                }
-//
-//                boolean res = db.checkUser(userName, pass);
-//                if (res == true && userName != null && pass != null) {
-//
-//                    /*//if user name exists
-//                    if(db.rowIdExists(user)){
-//                        Toast.makeText(LoginActivity.this, "Username exist", Toast.LENGTH_SHORT).show();
-//                    }*/
-//
-//                    Intent HomePage = new Intent(LoginActivity.this, ScanActivity.class);
-//                    HomePage.putExtra("User", userName);
-//                    startActivity(HomePage);
-//                } else {
-//                    Toast.makeText(LoginActivity.this, "Invalid Password", Toast.LENGTH_SHORT).show();
-//                }
-
             }
         });
 
+        //saving login credential using sharedpreferences
         saveLogin = sharedPreferences.getBoolean("saveLogin", true);
         if (saveLogin == true) {
             mTextUsername.setText(sharedPreferences.getString("username", null));
@@ -236,7 +200,7 @@ public class LoginActivity extends AppCompatActivity {
             if (netInfo.isConnected()) {
             }
             // Internet Available
-        }else {
+        } else {
             //No internet
             Toast.makeText(LoginActivity.this, "No internet connection!", Toast.LENGTH_LONG).show();
             /**

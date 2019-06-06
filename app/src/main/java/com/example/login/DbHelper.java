@@ -1,5 +1,9 @@
 package com.example.login;
 
+/**
+ * Used when i had sqlite as the database
+ */
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
